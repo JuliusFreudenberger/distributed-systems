@@ -2,6 +2,7 @@ package de.hse.distributedsystems.distributedsystems;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 @Controller
@@ -11,5 +12,10 @@ public class RestAPI {
     @GetMapping("/hi")
     public String sayHello() {
         return "Hello World!";
+    }
+
+    @GetMapping(value = "/echo/{request}")
+    public String echo(@PathVariable String request) {
+        return request;
     }
 }
