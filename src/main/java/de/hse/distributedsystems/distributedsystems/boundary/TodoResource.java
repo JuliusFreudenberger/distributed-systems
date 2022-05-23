@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/todo")
+@RequestMapping("/todos")
 public class TodoResource {
 
     private final TodoRepository todoRepository;
@@ -22,9 +22,9 @@ public class TodoResource {
         return todoRepository.findAll();
     }
 
-    @GetMapping("/{todo}")
-    public ResponseEntity<Todo> getTodo(@PathVariable final String todo) {
-        final var entity = todoRepository.findAllByTodo(todo);
+    @GetMapping("/{name}")
+    public ResponseEntity<Todo> getTodo(@PathVariable final String name) {
+        final var entity = todoRepository.findAllByTodo(name);
         if (entity.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
@@ -36,8 +36,20 @@ public class TodoResource {
         todoRepository.save(todo);
     }
 
-    @DeleteMapping("/{todo}")
-    public void deleteTodo(@PathVariable final String todo) {
-        todoRepository.deleteById(todo);
+    @PutMapping("/{name}")
+    public ResponseEntity<Object> replaceTodo(@PathVariable final String name, @RequestBody final Todo todo) {
+        final var persistedTodoOptional = todoRepository.findById(name);
+        if (persistedTodoOptional.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        final var persistedTodo = persistedTodoOptional.get();
+        persistedTodo.setPriority(todo.getPriority());
+        todoRepository.save(persistedTodo);
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/{name}")
+    public void deleteTodo(@PathVariable final String name) {
+        todoRepository.deleteById(name);
     }
 }
