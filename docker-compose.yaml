@@ -3,7 +3,11 @@ services:
   app:
     image: juliusfreudenberger/distributed-systems:latest
     container_name: distributed-systems-app
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - "spring.datasource.url=jdbc:postgresql://distributed-systems-db:5432/postgres"
     ports:
       - "127.0.0.1:8090:8090"
 
