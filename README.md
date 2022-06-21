@@ -19,3 +19,7 @@ Alternatively, the current state can be built into an image.
 A postgres database container is used.
 The properties for the database connection are overwritten for the docker compose setup.
 
+## API
+Please pay attention as the port of the application is at `8090`!
+The service exposes a SwaggerUI on [`/swagger-ui.html`](http://localhost:8090/swagger-ui.html).
+The main API resource is at [`/todos`](http://localhost:8090/todos) and is fully documented and has examples for the parameters.
